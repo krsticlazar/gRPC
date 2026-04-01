@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DSLab1Client/DSLab1Client.csproj" />
+  <Project Path="DSLab1Server/DSLab1Server.csproj" />
+</Solution>
