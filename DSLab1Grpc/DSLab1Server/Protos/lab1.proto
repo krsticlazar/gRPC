@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "DSLab1Server";
+package dslab1;
+
+service Lab1Template {
+  rpc Ping(google.protobuf.Empty) returns (TextReply);
+}
+
+message TextReply {
+  string text = 1;
+}

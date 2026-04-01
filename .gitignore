@@ -361,3 +361,14 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Local workspace folders used for generated docs, prompts, archives
+/.docx/
+/.temps/
+/.zips/
+/docx/
+/Docx/
+/temps/
+/Temps/
+/zips/
+/Zips/
