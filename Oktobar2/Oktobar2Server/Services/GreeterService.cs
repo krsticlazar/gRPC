@@ -1,7 +1,7 @@
 using Grpc.Core;
-using gRPC_Test_Server;
+using Oktobar2Server;
 
-namespace gRPC_Test_Server.Services
+namespace Oktobar2Server.Services
 {
     public class GreeterService : Greeter.GreeterBase
     {

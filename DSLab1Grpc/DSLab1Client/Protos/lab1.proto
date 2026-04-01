@@ -4,10 +4,15 @@ import "google/protobuf/empty.proto";
 option csharp_namespace = "DSLab1Client";
 package dslab1;
 
-service Lab1Template {
-  rpc Ping(google.protobuf.Empty) returns (TextReply);
+service Lab1Service {
+  rpc PostaviAcc(FibRequest) returns (google.protobuf.Empty);
+  rpc ObradiTok(stream NumberData) returns (stream NumberData);
 }
 
-message TextReply {
-  string text = 1;
+message FibRequest {
+  int32 n = 1;
+}
+
+message NumberData {
+  int32 value = 1;
 }
