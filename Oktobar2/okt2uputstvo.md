@@ -2,18 +2,18 @@
 
 Ne diram ti projekat. Ovde ti ostavljam samo kod koji treba da zamenis i kratko objasnjenje zasto.
 
-## 1. Server proto
+## 1\. Server proto
 
 Fajl:
 
-- `Oktobar2/Oktobar2Server/Protos/okt2.proto`
+* `Oktobar2/Oktobar2Server/Protos/okt2.proto`
 
 Zameni sadrzaj ovim:
 
 ```proto
 syntax = "proto3";
 
-option csharp_namespace = "Oktobar2Server";
+option csharp\\\_namespace = "Oktobar2Server";
 package oktobar2;
 
 service Okt2Service {
@@ -32,22 +32,22 @@ message RetMessage {
 
 Zasto:
 
-- tekst zadatka kaze da jedan element toka sadrzi dva broja `a` i `b`
-- zato jedna poruka mora da ima oba polja
-- ne treba da saljes po jedan broj pa da server sklapa parove
+* tekst zadatka kaze da jedan element toka sadrzi dva broja `a` i `b`
+* zato jedna poruka mora da ima oba polja
+* ne treba da saljes po jedan broj pa da server sklapa parove
 
-## 2. Client proto
+## 2\. Client proto
 
 Fajl:
 
-- `Oktobar2/Oktobar2Client/Protos/okt2.proto`
+* `Oktobar2/Oktobar2Client/Protos/okt2.proto`
 
 Zameni sadrzaj ovim:
 
 ```proto
 syntax = "proto3";
 
-option csharp_namespace = "Oktobar2Client";
+option csharp\\\_namespace = "Oktobar2Client";
 package oktobar2;
 
 service Okt2Service {
@@ -66,14 +66,14 @@ message RetMessage {
 
 Napomena:
 
-- od `package oktobar2;` pa na dole proto mora da bude isti na serveru i na klijentu
-- jedino `csharp_namespace` sme da bude razlicit
+* od `package oktobar2;` pa na dole proto mora da bude isti na serveru i na klijentu
+* jedino `csharp\\\_namespace` sme da bude razlicit
 
-## 3. Server service
+## 3\. Server service
 
 Fajl:
 
-- `Oktobar2/Oktobar2Server/Services/Oktobar2Service.cs`
+* `Oktobar2/Oktobar2Server/Services/Oktobar2Service.cs`
 
 Zameni logiku metodom koja za svaku primljenu poruku odmah vraca odgovor.
 
@@ -93,7 +93,7 @@ public class Oktobar2Service : Okt2Service.Okt2ServiceBase
     {
         await foreach (var request in requestStream.ReadAllAsync())
         {
-            string odgovor = request.B == request.A * request.A ? "Da" : "Ne";
+            string odgovor = request.B == request.A \\\* request.A ? "Da" : "Ne";
 
             await responseStream.WriteAsync(new RetMessage
             {
@@ -106,20 +106,20 @@ public class Oktobar2Service : Okt2Service.Okt2ServiceBase
 
 Sta ovde vise ne treba:
 
-- `NumState`
-- `redniBroj`
-- cekanje drugog elementa
+* `NumState`
+* `redniBroj`
+* cekanje drugog elementa
 
 Zasto:
 
-- sada jedna poruka vec sadrzi i `a` i `b`
-- server zato moze odmah da obradi svaku poruku i odmah da posalje odgovor
+* sada jedna poruka vec sadrzi i `a` i `b`
+* server zato moze odmah da obradi svaku poruku i odmah da posalje odgovor
 
-## 4. Client Program.cs
+## 4\. Client Program.cs
 
 Fajl:
 
-- `Oktobar2/Oktobar2Client/Program.cs`
+* `Oktobar2/Oktobar2Client/Program.cs`
 
 Najveca greska ti je bila sto si radio:
 
@@ -133,9 +133,9 @@ To pravi novi streaming poziv za svaki unos.
 
 Ispravno je:
 
-- napravis jedan `call`
-- kroz njega saljes vise poruka
-- paralelno citas odgovore
+* napravis jedan `call`
+* kroz njega saljes vise poruka
+* paralelno citas odgovore
 
 Koristi ovakav kod:
 
@@ -186,22 +186,22 @@ await call.RequestStream.CompleteAsync();
 await citanjeOdgovora;
 ```
 
-## 5. Zasto ti je await blokirao
+## 5\. Zasto ti je await blokirao
 
 Problem je bio u dve stvari:
 
-- server je cekao da skupi dva broja da bi formirao jedan par
-- klijent je za svaki unos pravio potpuno novi stream
+* server je cekao da skupi dva broja da bi formirao jedan par
+* klijent je za svaki unos pravio potpuno novi stream
 
 To znaci:
 
-- prvi broj ode u prvi stream
-- drugi broj ode u drugi stream
-- server u jednom stream-u nikad ne dobije kompletan par
+* prvi broj ode u prvi stream
+* drugi broj ode u drugi stream
+* server u jednom stream-u nikad ne dobije kompletan par
 
 Zato ne dobijes odgovor kada ocekujes.
 
-## 6. Jos jedna bitna greska
+## 6\. Jos jedna bitna greska
 
 U tvom starom client kodu adresa je bila:
 
@@ -211,8 +211,8 @@ https://localhost:5001
 
 Po `launchSettings.json` server ti slusa na:
 
-- `https://localhost:7286`
-- ili `http://localhost:5171`
+* `https://localhost:7286`
+* ili `http://localhost:5171`
 
 Najlakse je da na klijentu koristis:
 
@@ -220,11 +220,11 @@ Najlakse je da na klijentu koristis:
 https://localhost:7286
 ```
 
-## 7. Sta ne moras da diras
+## 7\. Sta ne moras da diras
 
 Ovo ne moras da menjas:
 
-- `Oktobar2/Oktobar2Server/Program.cs`
+* `Oktobar2/Oktobar2Server/Program.cs`
 
 ako ti vec mapira:
 
@@ -234,12 +234,13 @@ app.MapGrpcService<Oktobar2Service>();
 
 To je dovoljno.
 
-## 8. Kratko pravilo koje da zapamtis
+## 8\. Kratko pravilo koje da zapamtis
 
 Za ovaj zadatak:
 
-- jedan element toka = jedan par `(a, b)`
-- jedna primljena poruka = jedan odgovor `"Da"` ili `"Ne"`
-- jedan `call` traje kroz celu petlju unosa
+* jedan element toka = jedan par `(a, b)`
+* jedna primljena poruka = jedan odgovor `"Da"` ili `"Ne"`
+* jedan `call` traje kroz celu petlju unosa
 
 To je sustina cele ispravke.
+
