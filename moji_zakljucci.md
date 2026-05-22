@@ -205,28 +205,4 @@ public override async Task ObradiTok(
 }
 ```
 
-Na klijentu se prvo otvori poziv, zatim se salju elementi jedan po jedan:
-
-```csharp
-using var call = client.ObradiTok();
-
-await call.RequestStream.WriteAsync(new NumberPair
-{
-    A = a,
-    B = b
-});
-
-await call.RequestStream.CompleteAsync();
-```
-
-Odgovori se citaju iz `ResponseStream`:
-
-```csharp
-while (await call.ResponseStream.MoveNext())
-{
-    var response = call.ResponseStream.Current;
-    Console.WriteLine(response.Rezultat);
-}
-```
-
 Bitno: ako server ceka tok podataka, ne treba posle svakog `WriteAsync` odmah cekati konacan rezultat ako server logika ceka jos elemenata. Prvo posalji sta treba kroz `RequestStream`, zatim pozovi `CompleteAsync`, pa citaj odgovore iz `ResponseStream`.
